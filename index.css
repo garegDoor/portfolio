@@ -56,7 +56,7 @@ body,html {
 }
 #links {
     margin:40px 0px;
-    transition:0.6s ease-in-out;
+    transition:0.4s ease-in-out;
     color:#fff;
 }
 #links a {
