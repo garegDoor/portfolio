@@ -10,6 +10,10 @@
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     <link rel="stylesheet" href="index.css">
+
+    <!-- Pre-load Images here:-->
+    <link rel="preload" href="portrait.png" as="image" type="image/png"> 
+    <link rel="preload" href="test.png" as="image" type="image/png">
 </head>
 <body>
     <div id="loading">
@@ -26,6 +30,11 @@
 
     <center>
     <div id="middle">
+        <div id="hero-carousel">
+            <div class="hero-slide" style="background-image: url('portrait.png');"></div>
+            <div class="hero-slide" style="background-image: url('test.png');"></div>
+        </div>
+
         <div id="tagline" class="animated zoomIn" style="animation-delay:1.8s;">
             Game Designer & Programmer<br>
             <!--<button class="btn_one">haha ok</button>-->
