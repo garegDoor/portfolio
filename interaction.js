@@ -51,7 +51,19 @@ function create() {
     //this.add.text(10, 10, 'Hello, Phaser!', { fill: '#000' });
 
     platforms = this.physics.add.staticGroup();
-    platforms.create(400, 568, 'ground').setScale(2).refreshBody();
+    let groundPlatform = platforms.create(400, 400, 'ground');
+
+    let scaleXFactor = 2;
+    let scaleYFactor = 2;
+    groundPlatform.setDisplaySize(groundPlatform.width * scaleXFactor, groundPlatform.height * scaleYFactor);
+
+    groundPlatform.refreshBody();
+
+    let shrinkAmount = 6 * 4 * 2; //in pixels * 2, because the sprite itself was exported as 4x scale so need total of 4x to get 1 px
+
+    groundPlatform.body.setSize(groundPlatform.displayWidth, groundPlatform.displayHeight - shrinkAmount);
+    groundPlatform.body.y += shrinkAmount/2;
+
 
     player = this.physics.add.sprite(100, 450, 'player');
     player.setCollideWorldBounds(true);
