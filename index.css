@@ -191,6 +191,10 @@ body,html {
 #phaser-container canvas {
     display: block;
     margin: 0 auto;
+    image-rendering: -moz-crips-edges; /* fix for player stuttering due to fractionally scaled canvas */
+    image-rendering: -webkit-crisp-edges;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
 }
 #explore {
     margin:4vh 0px !important;
