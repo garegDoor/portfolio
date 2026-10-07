@@ -81,8 +81,8 @@ function create() {
     cameraDolly = new Phaser.Math.Vector2(player.x, player.y);
 
     this.cameras.main.startFollow(cameraDolly, true, 1, 1);
-    this.cameras.main.setBounds(0, 0, 1600, 600);
-    this.physics.world.setBounds(0, 0, 1600, 600);
+    this.cameras.main.setBounds(0, -1000, 1600, 1600);
+    this.physics.world.setBounds(0, -1000, 1600, 1600);
 
     this.cameras.main.setRoundPixels(false);
 }
