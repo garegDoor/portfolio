@@ -1,5 +1,5 @@
 const config = {
-    type: Phaser.AUTO, // auto selects WebGL or Canvas
+    type: Phaser.CANVAS,
     width: 800,
     height: 600,
     parent: 'phaser-container',
