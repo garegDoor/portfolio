@@ -5,7 +5,7 @@ const config = {
     parent: 'phaser-container',
     scale: {
         mode: Phaser.Scale.NONE,
-        autoCenter: Phaser.Scale.CENTER_BOTH
+        autoCenter: Phaser.Scale.NO_CENTER
     },
     backgroundColor: '#fff',
     physics: {
@@ -51,21 +51,12 @@ function create() {
     //this.add.text(10, 10, 'Hello, Phaser!', { fill: '#000' });
 
     platforms = this.physics.add.staticGroup();
-    let groundPlatform = platforms.create(400, 400, 'ground');
+    addGround(platforms, 100, 500);
+    addGround(platforms, 500, 300);
+    addGround(platforms, 900, 500);
+    addGround(platforms, 1300, 300);
 
-    let scaleXFactor = 2;
-    let scaleYFactor = 2;
-    groundPlatform.setDisplaySize(groundPlatform.width * scaleXFactor, groundPlatform.height * scaleYFactor);
-
-    groundPlatform.refreshBody();
-
-    let shrinkAmount = 6 * 4 * 2; //in pixels * 2, because the sprite itself was exported as 4x scale so need total of 4x to get 1 px
-
-    groundPlatform.body.setSize(groundPlatform.displayWidth, groundPlatform.displayHeight - shrinkAmount);
-    groundPlatform.body.y += shrinkAmount/2;
-
-
-    player = this.physics.add.sprite(100, 450, 'player');
+    player = this.physics.add.sprite(100, 200, 'player');
     player.setCollideWorldBounds(true);
     player.setVisible(false); // This is our physics body basically, so don't want to see it
     player.setOrigin(0.5, 1);
@@ -76,15 +67,45 @@ function create() {
 
     this.physics.add.collider(player, platforms);
 
+    // Arrow Keys
     cursors = this.input.keyboard.createCursorKeys();
+
+    // WASD Keys
+    const wasd = this.input.keyboard.addKeys({
+        left: Phaser.Input.Keyboard.KeyCodes.A,
+        up: Phaser.Input.Keyboard.KeyCodes.W,
+        right: Phaser.Input.Keyboard.KeyCodes.D
+    });
+
+    // Store both
+    cursors.leftKeys = [cursors.left, wasd.left];
+    cursors.rightKeys = [cursors.right, wasd.right];
+    cursors.upKeys = [cursors.up, wasd.up];
 
     cameraDolly = new Phaser.Math.Vector2(player.x, player.y);
 
     this.cameras.main.startFollow(cameraDolly, true, 1, 1);
-    this.cameras.main.setBounds(0, -1000, 1600, 1600);
-    this.physics.world.setBounds(0, -1000, 1600, 1600);
+    this.cameras.main.setFollowOffset(0, 150);
+    this.cameras.main.setBounds(0, -1000, 3200, 1600);
+    this.physics.world.setBounds(0, -1000, 3200, 1600);
 
     this.cameras.main.setRoundPixels(false);
+}
+
+function addGround(platformGroup, x, y) {
+    let ground = platformGroup.create(x, y, 'ground');
+
+    // All below code is doing is creating an offset from the top the of ground so the player sits nicely in the middle of the platform
+    let scaleXFactor = 2;
+    let scaleYFactor = 2;
+
+    ground.setDisplaySize(ground.width * scaleXFactor, ground.height * scaleYFactor);
+    ground.refreshBody();
+
+    let shrinkAmount = 6 * 4 * 2; //in pixels * 2, because the sprite itself was exported as 4x scale so need total of 4x to get 1 px
+
+    ground.body.setSize(ground.displayWidth, ground.displayHeight - shrinkAmount);
+    ground.body.y += shrinkAmount/2;
 }
 
 function update(time, delta) {
@@ -94,10 +115,10 @@ function update(time, delta) {
 
     //this.add.circle(mouseX, mouseY, 20, 0xff0000);
 
-    if (cursors.left.isDown) {
+    if (cursors.leftKeys.some(key => key.isDown)) {
         player.setVelocityX(-200);
         playerSprite.setFlipX(true);
-    } else if (cursors.right.isDown) {
+    } else if (cursors.rightKeys.some(key => key.isDown)) {
         player.setVelocityX(200);
         playerSprite.setFlipX(false);
     } else {
@@ -107,7 +128,7 @@ function update(time, delta) {
     const isGrounded = player.body.touching.down || player.body.blocked.down;
     const isMovingHorizontally = Math.abs(player.body.velocity.x) > 0;
 
-    if (cursors.up.isDown && isGrounded) {
+    if (cursors.upKeys.some(key => key.isDown) && isGrounded) {
         player.setVelocityY(-600);
 
         // jump Juice scaling

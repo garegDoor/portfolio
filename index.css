@@ -178,19 +178,22 @@ body,html {
     font-family: 'Comfortaa', cursive;
 }
 .phaser-wrapper {
-    padding: 20px;
+    display: block;
+    width: fit-content;
+    padding: 0;
     background-color: #f0f0f0;
-    display: inline-block;
 }
 #phaser-container {
     position: relative;
     z-index: 20;
     line-height: 0;
     overflow: hidden;
+    display: block;
+    margin: 0;
 }
 #phaser-container canvas {
     display: block;
-    margin: 0 auto;
+    margin: 0;
     image-rendering: -moz-crips-edges; /* fix for player stuttering due to fractionally scaled canvas */
     image-rendering: -webkit-crisp-edges;
     image-rendering: pixelated;
