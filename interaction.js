@@ -61,19 +61,6 @@ function create() {
     addGround(platforms, 900, 500);
     addGround(platforms, 1300, 300);
 
-    // let testText = this.add.text(50, 200, 'Interactable', {
-    //     fontFamily: 'GrapeSoda',
-    //     fontSize: '128px',
-    //     color: '#000000'
-    // });
-
-    // // Give the text a link
-    // testText.setData('link', 'https://game-design-art-collab.itch.io/malisense');
-
-    // testText.scale = 0.5;
-
-    // // Make the text an interactable
-    // interactables.push(testText);
     addInteractable(this, 50, 200, 'Interactable', 'https://game-design-art-collab.itch.io/malisense', 0.5);
 
     player = this.physics.add.sprite(100, 200, 'player');
@@ -139,6 +126,12 @@ function addInteractable(scene, x, y, string, link, scale) {
     newInteractable.setData('link', link);
     newInteractable.scale = scale;
     interactables.push(newInteractable);
+
+
+    //  (REMOVE LATER) Debug visual for interatDistance
+    const debugRing = scene.add.circle(x, y, interactDistance, 0xff0000);
+    debugRing.setFillStyle();
+    debugRing.setStrokeStyle(2, 0xff0000, 1);
 }
 
 function interactableNearby() {
