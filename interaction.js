@@ -251,7 +251,8 @@ function update(time, delta) {
         // call interaction function
         console.log("Interacted with:", currentInteractable.text);
         //console.log("Pressed Interact Key");
+        let link = currentInteractable.data.get('link');
 
-        window.open(currentInteractable.data.get('link'), '_blank');
+        window.open(link, '_blank');
     }
 }
