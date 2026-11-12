@@ -35,6 +35,10 @@ let mouseY;
 let player;
 let playerSprite;
 let cursors;
+let interactKey;
+let currentInteractable;
+let interactables = [];
+let interactDistance = 500;
 let platforms;
 let cameraDolly;
 
@@ -55,6 +59,18 @@ function create() {
     addGround(platforms, 500, 300);
     addGround(platforms, 900, 500);
     addGround(platforms, 1300, 300);
+
+    let testText = this.add.text(50, 200, 'Interactable', {
+        fontFamily: 'Arial',
+        fontSize: '64px',
+        color: '#000000'
+    });
+
+    // Give the text a link
+    testText.setData('link', 'https://game-design-art-collab.itch.io/malisense');
+
+    // Make the text an interactable
+    interactables.push(testText);
 
     player = this.physics.add.sprite(100, 200, 'player');
     player.setCollideWorldBounds(true);
@@ -82,6 +98,8 @@ function create() {
     cursors.rightKeys = [cursors.right, wasd.right];
     cursors.upKeys = [cursors.up, wasd.up];
 
+    interactKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
+
     cameraDolly = new Phaser.Math.Vector2(player.x, player.y);
 
     this.cameras.main.startFollow(cameraDolly, true, 1, 1);
@@ -106,6 +124,24 @@ function addGround(platformGroup, x, y) {
 
     ground.body.setSize(ground.displayWidth, ground.displayHeight - shrinkAmount);
     ground.body.y += shrinkAmount/2;
+}
+
+function interactableNearby() {
+    console.log("Checking for nearby interactables...");
+    for (let i = 0; i < interactables.length; i++) {
+        let interactable = interactables[i];
+        console.log("Checking interactable:", interactable.text);
+        console.log("Player position:", player.x, player.y);
+        console.log("Interactable position:", interactable.x, interactable.y);
+        if (Phaser.Math.Distance.Between(player.x, player.y, interactable.x, interactable.y) <= interactDistance) {
+            currentInteractable = interactable;
+            console.log("Found nearby interactable:", currentInteractable.text);
+            return true;
+        }
+    }
+    currentInteractable = null;
+    console.log("No nearby interactables found.");
+    return false;
 }
 
 function update(time, delta) {
@@ -201,4 +237,13 @@ function update(time, delta) {
 
     cameraDolly.x = Phaser.Math.Linear(cameraDolly.x, player.x, lerpFactor);
     cameraDolly.y = Phaser.Math.Linear(cameraDolly.y, player.y, lerpFactor);
+
+    // Interaction stuff
+    if (Phaser.Input.Keyboard.JustDown(interactKey) && interactableNearby()) {
+        // call interaction function
+        console.log("Interacted with:", currentInteractable.text);
+        //console.log("Pressed Interact Key");
+
+        window.open(currentInteractable.data.get('link'), '_blank');
+    }
 }
