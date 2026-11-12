@@ -49,6 +49,7 @@ let targetAngle = 0;
 function preload() {
     this.load.image('ground', 'portfolio_website_ground.png');
     this.load.image('player', 'portfolio_website_player.png');
+    this.load.font('GrapeSoda', 'GrapeSoda.ttf');
 }
 
 function create() {
@@ -61,13 +62,15 @@ function create() {
     addGround(platforms, 1300, 300);
 
     let testText = this.add.text(50, 200, 'Interactable', {
-        fontFamily: 'Arial',
-        fontSize: '64px',
+        fontFamily: 'GrapeSoda',
+        fontSize: '128px',
         color: '#000000'
     });
 
     // Give the text a link
     testText.setData('link', 'https://game-design-art-collab.itch.io/malisense');
+
+    testText.scale = 0.5;
 
     // Make the text an interactable
     interactables.push(testText);
