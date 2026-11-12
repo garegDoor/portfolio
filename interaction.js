@@ -61,19 +61,20 @@ function create() {
     addGround(platforms, 900, 500);
     addGround(platforms, 1300, 300);
 
-    let testText = this.add.text(50, 200, 'Interactable', {
-        fontFamily: 'GrapeSoda',
-        fontSize: '128px',
-        color: '#000000'
-    });
+    // let testText = this.add.text(50, 200, 'Interactable', {
+    //     fontFamily: 'GrapeSoda',
+    //     fontSize: '128px',
+    //     color: '#000000'
+    // });
 
-    // Give the text a link
-    testText.setData('link', 'https://game-design-art-collab.itch.io/malisense');
+    // // Give the text a link
+    // testText.setData('link', 'https://game-design-art-collab.itch.io/malisense');
 
-    testText.scale = 0.5;
+    // testText.scale = 0.5;
 
-    // Make the text an interactable
-    interactables.push(testText);
+    // // Make the text an interactable
+    // interactables.push(testText);
+    addInteractable(this, 50, 200, 'Interactable', 'https://game-design-art-collab.itch.io/malisense', 0.5);
 
     player = this.physics.add.sprite(100, 200, 'player');
     player.setCollideWorldBounds(true);
@@ -127,6 +128,17 @@ function addGround(platformGroup, x, y) {
 
     ground.body.setSize(ground.displayWidth, ground.displayHeight - shrinkAmount);
     ground.body.y += shrinkAmount/2;
+}
+
+function addInteractable(scene, x, y, string, link, scale) {
+    let newInteractable = scene.add.text(x, y, string, {
+        fontFamily: 'GrapeSoda',
+        fontSize: '128px',
+        color: '#000000'
+    });
+    newInteractable.setData('link', link);
+    newInteractable.scale = scale;
+    interactables.push(newInteractable);
 }
 
 function interactableNearby() {
