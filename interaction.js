@@ -91,6 +91,16 @@ function create() {
 
     interactKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
 
+    this.input.keyboard.on('keydown-E', () => {
+        if (interactableNearby()) {
+            console.log("Interacted with", currentInteractable.text);
+
+            let link = currentInteractable.data.get('link');
+
+            window.open(link, '_blank');
+        }
+    });
+
     cameraDolly = new Phaser.Math.Vector2(player.x, player.y);
 
     this.cameras.main.startFollow(cameraDolly, true, 1, 1);
@@ -246,13 +256,13 @@ function update(time, delta) {
     cameraDolly.x = Phaser.Math.Linear(cameraDolly.x, player.x, lerpFactor);
     cameraDolly.y = Phaser.Math.Linear(cameraDolly.y, player.y, lerpFactor);
 
-    // Interaction stuff
-    if (Phaser.Input.Keyboard.JustDown(interactKey) && interactableNearby()) {
-        // call interaction function
-        console.log("Interacted with:", currentInteractable.text);
-        //console.log("Pressed Interact Key");
-        let link = currentInteractable.data.get('link');
+    // Interaction stuff old (moved to create() function to fix pop-ups blocked by safari)
+    // if (Phaser.Input.Keyboard.JustDown(interactKey) && interactableNearby()) {
+    //     // call interaction function
+    //     console.log("Interacted with:", currentInteractable.text);
+    //     //console.log("Pressed Interact Key");
+    //     let link = currentInteractable.data.get('link');
 
-        window.open(link, '_blank');
-    }
+    //     window.open(link, '_blank');
+    // }
 }
